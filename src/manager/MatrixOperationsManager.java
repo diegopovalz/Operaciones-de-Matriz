@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MatrixOperationsManager {
+	/**
+	  * Lee un archivo en una ruta específica y crea una matriz
+	  *
+	  * @param ruta La ruta en donde se encuentra el archivo.
+	  * @return La matriz si se logra leer el archivo-
+	  */
 	public static Integer[][] leerArchivo(String ruta) {
 		FileReader reader = null;
 		BufferedReader buffered = null;
@@ -60,7 +66,13 @@ public class MatrixOperationsManager {
 		return matrix;
 	}
 	
-	public static Integer numeroMayorDeLaMatriz(Integer[][] array) {
+	/**
+	 * Devuelve la cantidad de dígitos del numero mayor de la matriz
+	 * 
+	 * @param array Matriz a la cual se buscará el numero mayor
+	 * @return La cantidad de dígitos del numero mayor de la matriz
+	 */
+	public static Integer numeroDigitosNumeroMayor(Integer[][] array) {
 		Integer numeroMayor = array[0][0];
 		for(int i = 0; i < array.length; i++) {
 			for(int j = 0; j < array[i].length; j++) {
@@ -72,8 +84,12 @@ public class MatrixOperationsManager {
 		return Integer.toString(numeroMayor).length();
 	}
 	
+	/**
+	 * Imprime la matriz
+	 * @param array Matriz a imprimir
+	 */
 	public static void mostrarMatriz(Integer[][] array) {
-		Integer digitosMaximos = numeroMayorDeLaMatriz(array);
+		Integer digitosMaximos = numeroDigitosNumeroMayor(array);
 		for(int i = 0; i < array.length; i++) {
 			for(int j = 0; j < array[i].length; j++) {
 				Integer espaciosFaltantes = digitosMaximos - Integer.toString(array[i][j]).length();
@@ -88,6 +104,10 @@ public class MatrixOperationsManager {
 		imprimirMensaje("\n");
 	}
 	
+	/**
+	 * Suma todos los datos de la matriz y se imprime el resultado
+	 * @param array Matriz a la cual se le sumarán sus datos
+	 */
 	public static void sumarDatos(Integer[][] array) {
 		int totalSuma = 0;
 		for(int i = 0; i < array.length; i++) {
@@ -98,6 +118,10 @@ public class MatrixOperationsManager {
 		imprimirMensaje("La suma total de datos es: " + totalSuma + "\n");
 	}
 	
+	/**
+	 * Devuelve el número más grande que hay en la matriz
+	 * @param array Matriz a la cual se le devolverá el número mayor en ella
+	 */
 	public static void devolverMayor(Integer[][] array) {
 		int mayor = array[0][0];
 		int fila = 0;
@@ -114,6 +138,10 @@ public class MatrixOperationsManager {
 		imprimirMensaje("El número mayor está en la posición [" + (fila + 1) + "][" + (columna + 1) + "] con el valor " + mayor + "\n");
 	}
 	
+	/**
+	 * Devuelve el número más pequeño que hay en la matriz
+	 * @param array Matriz a la cual se le devolverá el número menor en ella
+	 */
 	public static void devolverMenor(Integer[][] array) {
 		int menor = array[0][0];
 		int fila = 0;
@@ -130,6 +158,10 @@ public class MatrixOperationsManager {
 		imprimirMensaje("El número menor está en la posición [" + (fila + 1) + "][" + (columna + 1) + "] con el valor " + menor + "\n");
 	}
 	
+	/**
+	 * Imprime una respuesta en forma de vector
+	 * @param array Vector con el que se conseguirán los datos a imprimir
+	 */
 	public static void mostrarVector(Integer[] array) {
 		String respuesta = "[";
 		for(int i = 0; i < array.length; i++) {
@@ -144,6 +176,12 @@ public class MatrixOperationsManager {
 		imprimirMensaje(respuesta + "\n");
 	}
 	
+	/**
+	 * Imprime una respuesta en forma de vector
+	 * @param array Vector con el que se conseguirán los datos a imprimir
+	 * @param extra Información extra que se quiere imprimir
+	 * @param incluirIndice verdadero si quiere que se imprima el índice, falso si no
+	 */
 	public static void mostrarVector(Integer[] array, String extra, boolean incluirIndice) {
 		String respuesta = "[";
 		for(int i = 0; i < array.length; i++) {
@@ -159,6 +197,11 @@ public class MatrixOperationsManager {
 		imprimirMensaje(respuesta + "\n");
 	}
 	
+	/**
+	 * Devuelve el número menor que hay en el vector
+	 * @param array Vector del cual se devolverá el número menor
+	 * @return El número más pequeño del vector
+	 */
 	public static int menorDelVector(Integer[] array) {
 		int menor = array[0];
 		for(int i = 0; i < array.length; i++) {
@@ -169,6 +212,11 @@ public class MatrixOperationsManager {
 		return menor;
 	}
 	
+	/**
+	 * Devuelve el número mayor que hay en el vector
+	 * @param array Vector del cual se devolverá el número mayor
+	 * @return El número más grande del vector
+	 */
 	public static int mayorDelVector(Integer[] array) {
 		int mayor = array[0];
 		for(int i = 0; i < array.length; i++) {
@@ -179,6 +227,10 @@ public class MatrixOperationsManager {
 		return mayor;
 	}
 	
+	/**
+	 * Imprime un vector indicando cual es el número más pequeño de cada fila de la matriz
+	 * @param array Matriz de la cual se sacará la información
+	 */
 	public static void vectorConMenorPorFila(Integer[][] array) {
 		Integer[] respuesta = new Integer[array.length];
 		for(int i = 0; i < array.length; i++) {
@@ -191,6 +243,10 @@ public class MatrixOperationsManager {
 		mostrarVector(respuesta, "Menor de la fila ", true);
 	}
 	
+	/**
+	 * Imprime un vector indicando cual es el número más grande de cada fila de la matriz
+	 * @param array Matriz de la cual se sacará la información
+	 */
 	public static void vectorConMayorPorColumna(Integer[][] array) {
 		Integer[] respuesta = new Integer[array.length];
 		for(int i = 0; i < array.length; i++) {
@@ -203,6 +259,11 @@ public class MatrixOperationsManager {
 		mostrarVector(respuesta, "Mayor de la columna ", true);
 	}
 	
+	/**
+	 * Imprime cual es el mayor resultado de sumar los dígitos de los números de cada columna
+	 * En caso de repetirse esta suma, se mostrará en todas las posiciones que esté
+	 * @param array Matriz de la cual se sacará la información
+	 */
 	public static void muestraDatoConMayorSumaDigitosPorColumna(Integer[][] array) {
 		List<String> respuestas = new ArrayList<String>();
 		for(int i = 0; i < array.length; i++) {
@@ -242,6 +303,7 @@ public class MatrixOperationsManager {
 		imprimirMensaje("\n");
 	}
 	
+	/*//Estos dos métodos no son necesarios ahora mismo, se dejarán comentados hasta que haya necesidad de usarlos
 	public static Integer[] pasarDeMatrizAVector(Integer[][] array) {
 		Integer[] newArray = new Integer[array.length * array.length];
 		int k = 0;
@@ -265,8 +327,13 @@ public class MatrixOperationsManager {
 			}
 		}
 		return newArray;
-	}
+	}*/
 	
+	/**
+	 * Ordena un vector por el método de ordenamiento burbuja
+	 * @param array Vector a ordenar
+	 * @return Vector ordenado
+	 */
 	public static Integer[] ordenarVectorPorBurbuja(Integer[] array) {
 		for (int i = 0; i < (array.length - 1); i++) {
             for (int j = 0; j < (array.length - i - 1); j++) {
@@ -281,6 +348,10 @@ public class MatrixOperationsManager {
 		return array;
 	}
 	
+	/**
+	 * Ordena cada columna de la matriz ascendentemente por el método de ordenamiento burbuja
+	 * @param array Matriz a la cual se le ordenarán sus columnas
+	 */
 	public static void ordenaCadaColumnaAscendentemente(Integer[][] array) { //método burbuja
 		for(int i = 0; i < array.length; i++) {
 			Integer[] columna = new Integer[array.length];
@@ -295,6 +366,10 @@ public class MatrixOperationsManager {
 		mostrarMatriz(array);
 	}
 	
+	/**
+	 * Devuelve el promedio de todos los números ubicados en la diagonal secundaria de la matriz
+	 * @param array Matriz que contiene una diagonal secundaria a la cual se le sacará el promedio
+	 */
 	public static void promedioDiagonalSecundaria(Integer[][] array) {
 		int sumaDiagonalSecundaria = 0;
 		int contador = 0;
@@ -310,12 +385,20 @@ public class MatrixOperationsManager {
 		imprimirMensaje("El promedio de la diagonal secundaria es " + promedioDiagonalSecundaria + "\n");
 	}
 	
+	/**
+	 * Ordena la matriz de manera descendente por columnas
+	 * @param array Matriz a ordenar
+	 */
 	public static void ordenaDescendentementePorColumnasTodaLaMatriz(Integer[][] array) { //método de inserción
 		
 	}
 	
+	/**
+	 * Muestra la matriz triangular superior ubicada dentro de la matriz original
+	 * @param array Matriz original de la cual se mostrará la matriz triangular superior
+	 */
 	public static void mostrarPorFilasTriangularSuperiorDerecha(Integer[][] array) {
-		Integer digitosMaximos = numeroMayorDeLaMatriz(array);
+		Integer digitosMaximos = numeroDigitosNumeroMayor(array);
 		for(int i = 0; i < array.length; i++) {
 			for(int j = 0; j < array[i].length; j++) {
 				if(i > j) 
@@ -333,10 +416,21 @@ public class MatrixOperationsManager {
 		}
 	}
 	
-	public static void ordenarAscendentementePorColumna1() { //método burbuja mejorado
+	/**
+	 * Ordena ascendentemente la primera columna de la matriz
+	 * @param array Matriz a la cual se le ordenará ascendentemente la primera columna
+	 */
+	public static void ordenarAscendentementePorColumna1(Integer[][] array) { //método burbuja mejorado
 		
 	}
 	
+	
+	/**
+	 * Intercambia dos columnas de una matriz
+	 * @param array Matriz a la cual se le intercambiarán las columnas
+	 * @param columna1 Primera columna
+	 * @param columna2 Segunda columna
+	 */
 	public static void intercambiarColumnas(Integer[][] array, int columna1, int columna2) {
 		imprimirMensaje("Intercambiando columnas " + columna1 + " y " + columna2);
 		for(int i = 0; i < array.length; i++) {
@@ -347,6 +441,11 @@ public class MatrixOperationsManager {
 		mostrarMatriz(array);
 	}
 	
+	/**
+	 * Indica si un número es primo o no
+	 * @param numero Número a verificar
+	 * @return verdadero si es primo, falso si no lo es
+	 */
 	public static boolean esPrimo(Integer numero) {
 		int contador = 0;
 		for(int i = 1; i <= numero; i++) {
@@ -357,6 +456,10 @@ public class MatrixOperationsManager {
 		return (contador <= 2);
 	}
 	
+	/**
+	 * Imprime los números dentro de la matriz que sean primos, y su ubicación
+	 * @param array Matriz de la cual se revisarán los números primos
+	 */
 	public static void datosQueSeanPrimos(Integer[][] array) { //fila, columna, valor
 		List<String> respuestas = new ArrayList<String>();
 		for(int i = 0; i < array.length; i++) {
@@ -377,10 +480,18 @@ public class MatrixOperationsManager {
 		imprimirMensaje("\n");
 	}
 	
+	/**
+	 * Método general para imprimir un mensaje
+	 * @param mensaje Mensaje a imprimir
+	 */
 	public static void imprimirMensaje(String mensaje) {
 		System.out.println(mensaje);
 	}
 	
+	/**
+	 * Método general para imprimir un mensaje sin salto de línea
+	 * @param mensaje Mensaje a imprimir
+	 */
 	public static void imprimirSinSalto(String mensaje) {
 		System.out.print(mensaje);
 	}
