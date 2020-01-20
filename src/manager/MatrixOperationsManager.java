@@ -1,59 +1,101 @@
 package manager;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class MatrixOperationsManager {
-
-	public static Integer[][] readFile(File file) throws FileNotFoundException {
-		Scanner scanner = new Scanner(file);
-		int matrixDimension = 0;
-		int skip = 1;
-		while(scanner.hasNextInt() && skip == 1) { //This in kinda dumb, just to get the matrix dimension LMAO
-			matrixDimension = scanner.nextInt();
-			skip++;
-		}
-		
-		if(matrixDimension < 8 && matrixDimension > 16) {
-			imprimirMensaje("Matrix dimension can't be less than 8 or greater than 16");
-			scanner.close();
-			System.exit(0);
-		}
-		
-		Integer[][] integersArray = new Integer[matrixDimension][matrixDimension];
-		for(int i = 0; i < integersArray.length; i++) {
-			for(int j = 0; j < integersArray[i].length; j++) {
-				if(scanner.hasNextInt()) 
-					integersArray[i][j] = scanner.nextInt();
-				else
-					integersArray[i][j] = 0;
+	public static Integer[][] leerArchivo(String ruta) {
+		FileReader reader = null;
+		BufferedReader buffered = null;
+		File file = new File(ruta);
+		Integer matrixDimension = null;
+		if(!file.exists()) {
+			imprimirMensaje("¡El archivo especificado no existe!\n");
+		} else {
+			try {
+				reader = new FileReader(file);
+				buffered = new BufferedReader(reader);
+				matrixDimension = Integer.parseInt(buffered.readLine());
+			} catch (FileNotFoundException e) {
+				imprimirMensaje("¡El archivo no fue encontrado!\n");
+				e.printStackTrace();
+			} catch (NumberFormatException e) {
+				imprimirMensaje("¡Hay un dato en el archivo que no se puede convertir a número!\n");
+				e.printStackTrace();
+			} catch (IOException e) {
+				imprimirMensaje("¡Hay un error que no sé por qué sale!\n");
+				e.printStackTrace();
 			}
 		}
-		imprimirMensaje("La dimensión de la matriz es " + matrixDimension + "\n");
-		scanner.close();
-		return integersArray;
+		imprimirMensaje("La dimensión de la matriz es " + matrixDimension);
+		Integer[][] matrix = new Integer[matrixDimension][matrixDimension];
+		String linea = null;
+		try {
+			linea = buffered.readLine();
+			int contador = 0;
+			while(linea != null) {
+				String[] valores = linea.split(" ");
+				for(int i = 0; i < valores.length; i++) {
+					matrix[contador][i] = Integer.parseInt(valores[i]);
+				}
+				contador++;
+				linea = buffered.readLine();
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} finally {
+			if(buffered != null) {
+				try {
+					buffered.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return matrix;
+	}
+	
+	public static Integer numeroMayorDeLaMatriz(Integer[][] array) {
+		Integer numeroMayor = array[0][0];
+		for(int i = 0; i < array.length; i++) {
+			for(int j = 0; j < array[i].length; j++) {
+				if(array[i][j] > numeroMayor) {
+					numeroMayor = array[i][j];
+				}
+			}
+		}
+		return Integer.toString(numeroMayor).length();
 	}
 	
 	public static void mostrarMatriz(Integer[][] array) {
+		Integer digitosMaximos = numeroMayorDeLaMatriz(array);
 		for(int i = 0; i < array.length; i++) {
 			for(int j = 0; j < array[i].length; j++) {
-				System.out.print(array[i][j] + " ");
+				Integer espaciosFaltantes = digitosMaximos - Integer.toString(array[i][j]).length();
+				String espacios = "";
+				for(int k = 0; k < espaciosFaltantes; k++) {
+					espacios += " ";
+				}
+				imprimirSinSalto(espacios + array[i][j] + " ");
 			}
 			imprimirMensaje("");
 		}
+		imprimirMensaje("\n");
 	}
 	
-	public static int sumarDatos(Integer[][] array) {
+	public static void sumarDatos(Integer[][] array) {
 		int totalSuma = 0;
 		for(int i = 0; i < array.length; i++) {
 			for(int j = 0; j < array[i].length; j++) {
 				totalSuma += array[i][j];
 			}
 		}
-		return totalSuma;
+		imprimirMensaje("La suma total de datos es: " + totalSuma + "\n");
 	}
 	
 	public static void devolverMayor(Integer[][] array) {
@@ -69,7 +111,7 @@ public class MatrixOperationsManager {
 				}
 			}
 		}
-		imprimirMensaje("El número mayor está en la posición [" + fila + "][" + columna + "] con el valor " + mayor);
+		imprimirMensaje("El número mayor está en la posición [" + (fila + 1) + "][" + (columna + 1) + "] con el valor " + mayor + "\n");
 	}
 	
 	public static void devolverMenor(Integer[][] array) {
@@ -85,7 +127,7 @@ public class MatrixOperationsManager {
 				}
 			}
 		}
-		imprimirMensaje("El número menor está en la posición [" + fila + "][" + columna + "] con el valor " + menor);
+		imprimirMensaje("El número menor está en la posición [" + (fila + 1) + "][" + (columna + 1) + "] con el valor " + menor + "\n");
 	}
 	
 	public static void mostrarVector(Integer[] array) {
@@ -99,7 +141,22 @@ public class MatrixOperationsManager {
 			respuesta = respuesta.substring(0, respuesta.length() - 1);
 		}
 		respuesta += "]";
-		imprimirMensaje(respuesta);
+		imprimirMensaje(respuesta + "\n");
+	}
+	
+	public static void mostrarVector(Integer[] array, String extra, boolean incluirIndice) {
+		String respuesta = "[";
+		for(int i = 0; i < array.length; i++) {
+			String indice = (incluirIndice ? Integer.toString(i + 1) : "");
+			respuesta += (extra + indice + ": "+  + array[i] + ", ");
+		}
+		if(respuesta.endsWith(", ")) {
+			respuesta = respuesta.substring(0, respuesta.length() - 2);
+		} else if(respuesta.endsWith(",")) {
+			respuesta = respuesta.substring(0, respuesta.length() - 1);
+		}
+		respuesta += "]";
+		imprimirMensaje(respuesta + "\n");
 	}
 	
 	public static int menorDelVector(Integer[] array) {
@@ -115,7 +172,7 @@ public class MatrixOperationsManager {
 	public static int mayorDelVector(Integer[] array) {
 		int mayor = array[0];
 		for(int i = 0; i < array.length; i++) {
-			if(array[i] < mayor) {
+			if(array[i] > mayor) {
 				mayor = array[i];
 			}
 		}
@@ -131,7 +188,7 @@ public class MatrixOperationsManager {
 			}
 			respuesta[i] = menorDelVector(newArray);
 		}
-		mostrarVector(respuesta);
+		mostrarVector(respuesta, "Menor de la fila ", true);
 	}
 	
 	public static void vectorConMayorPorColumna(Integer[][] array) {
@@ -141,9 +198,9 @@ public class MatrixOperationsManager {
 			for(int j = 0; j < array[i].length; j++) {
 				newArray[j] = array[j][i];
 			}
-			respuesta[i] = menorDelVector(newArray);
+			respuesta[i] = mayorDelVector(newArray);
 		}
-		mostrarVector(respuesta);
+		mostrarVector(respuesta, "Mayor de la columna ", true);
 	}
 	
 	public static void muestraDatoConMayorSumaDigitosPorColumna(Integer[][] array) {
@@ -182,6 +239,7 @@ public class MatrixOperationsManager {
 		for(String respuesta : respuestas) {
 			imprimirMensaje(respuesta);
 		}
+		imprimirMensaje("\n");
 	}
 	
 	public static Integer[] pasarDeMatrizAVector(Integer[][] array) {
@@ -249,15 +307,30 @@ public class MatrixOperationsManager {
 			}
 		}
 		double promedioDiagonalSecundaria = (double) sumaDiagonalSecundaria / contador;
-		imprimirMensaje("El promedio de la diagonal secundaria es " + promedioDiagonalSecundaria);
+		imprimirMensaje("El promedio de la diagonal secundaria es " + promedioDiagonalSecundaria + "\n");
 	}
 	
 	public static void ordenaDescendentementePorColumnasTodaLaMatriz(Integer[][] array) { //método de inserción
 		
 	}
 	
-	public static void mostrarPorFilasTriangularSuperiorDerecha() {
-		
+	public static void mostrarPorFilasTriangularSuperiorDerecha(Integer[][] array) {
+		Integer digitosMaximos = numeroMayorDeLaMatriz(array);
+		for(int i = 0; i < array.length; i++) {
+			for(int j = 0; j < array[i].length; j++) {
+				if(i > j) 
+					imprimirSinSalto("    ");
+				else {
+					Integer espaciosFaltantes = digitosMaximos - Integer.toString(array[i][j]).length();
+					String espacios = "";
+					for(int k = 0; k < espaciosFaltantes; k++) {
+						espacios += " ";
+					}
+					imprimirSinSalto(espacios + array[i][j] + " ");
+				}
+			}
+			imprimirMensaje(" ");
+		}
 	}
 	
 	public static void ordenarAscendentementePorColumna1() { //método burbuja mejorado
@@ -299,11 +372,16 @@ public class MatrixOperationsManager {
 				imprimirMensaje(respuesta);
 			}
 		} else {
-			imprimirMensaje("No hay números primos en la matriz");
+			imprimirMensaje("No hay números primos en la matriz\n");
 		}
+		imprimirMensaje("\n");
 	}
 	
 	public static void imprimirMensaje(String mensaje) {
 		System.out.println(mensaje);
+	}
+	
+	public static void imprimirSinSalto(String mensaje) {
+		System.out.print(mensaje);
 	}
 }
