@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * @author Diego Alejandro Poveda Alzate
@@ -18,7 +19,7 @@ public class MatrixOperationsManager {
 	  * @param ruta La ruta en donde se encuentra el archivo.
 	  * @return La matriz si se logra leer el archivo-
 	  */
-	public static Integer[][] leerArchivo(String ruta) {
+	/*public static Integer[][] leerArchivo(String ruta) {
 		FileReader reader = null;
 		BufferedReader buffered = null;
 		File file = new File(ruta);
@@ -67,6 +68,42 @@ public class MatrixOperationsManager {
 			}
 		}
 		return matrix;
+	}*/
+	
+	public static Integer[][] leerArchivo(String ruta) {
+		File file = new File(ruta);
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(file);
+		} catch (FileNotFoundException e) {
+			imprimirMensaje("¡Archivo no encontrado!");
+			e.printStackTrace();
+		}
+		int matrixDimension = 0;
+		int skip = 1;
+		while(scanner.hasNextInt() && skip == 1) { //This in kinda dumb, just to get the matrix dimension LMAO
+			matrixDimension = scanner.nextInt();
+			skip++;
+		}
+		
+		if(matrixDimension < 8 && matrixDimension > 16) {
+			imprimirMensaje("Matrix dimension can't be less than 8 or greater than 16");
+			scanner.close();
+			System.exit(0);
+		}
+		
+		Integer[][] integersArray = new Integer[matrixDimension][matrixDimension];
+		for(int i = 0; i < integersArray.length; i++) {
+			for(int j = 0; j < integersArray[i].length; j++) {
+				if(scanner.hasNextInt()) 
+					integersArray[i][j] = scanner.nextInt();
+				else
+					integersArray[i][j] = 0;
+			}
+		}
+		imprimirMensaje("La dimensión de la matriz es " + matrixDimension + "\n");
+		scanner.close();
+		return integersArray;
 	}
 	
 	/**
