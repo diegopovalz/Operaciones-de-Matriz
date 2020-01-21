@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Diego Alejandro Poveda Alzate
+ */
 public class MatrixOperationsManager {
 	/**
 	  * Lee un archivo en una ruta específica y crea una matriz
@@ -444,7 +447,7 @@ public class MatrixOperationsManager {
 	/**
 	 * Indica si un número es primo o no
 	 * @param numero Número a verificar
-	 * @return verdadero si es primo, falso si no lo es
+	 * @return <code>true</code> si es primo, <code>false</code> si no lo es
 	 */
 	public static boolean esPrimo(Integer numero) {
 		int contador = 0;

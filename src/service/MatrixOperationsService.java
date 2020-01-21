@@ -2,6 +2,9 @@ package service;
 
 import manager.MatrixOperationsManager;
 
+/**
+ * @author Diego Alejandro Poveda Alzate
+ */
 public class MatrixOperationsService {
 
 	public static void main(String[] args) {
