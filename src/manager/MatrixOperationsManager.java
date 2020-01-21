@@ -73,11 +73,15 @@ public class MatrixOperationsManager {
 	public static Integer[][] leerArchivo(String ruta) {
 		File file = new File(ruta);
 		Scanner scanner = null;
-		try {
-			scanner = new Scanner(file);
-		} catch (FileNotFoundException e) {
-			imprimirMensaje("¡Archivo no encontrado!");
-			e.printStackTrace();
+		if(!file.exists()) {
+			imprimirMensaje("¡No se ha encontrado el archivo!\n");
+		} else {
+			try {
+				scanner = new Scanner(file);
+			} catch (FileNotFoundException e) {
+				imprimirMensaje("¡Archivo no encontrado!\n");
+				e.printStackTrace();
+			}
 		}
 		int matrixDimension = 0;
 		int skip = 1;
