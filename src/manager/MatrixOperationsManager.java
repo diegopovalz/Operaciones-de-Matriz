@@ -361,16 +361,27 @@ public class MatrixOperationsManager {
 	/**
 	 * Convierte un vector unidimensional a una matriz de dos dimensiones
 	 * @param array El vector a convertir
+	 * @param porColumnas <code>true</code> para llenar la matriz por columnas, <code>false</code> para llenarla por filas
 	 * @return La matriz de dos dimensiones
 	 */
-	public static Integer[][] pasarDeVectorAMatriz(Integer[] array){
+	public static Integer[][] pasarDeVectorAMatriz(Integer[] array, boolean porColumnas){
 		int dimension = (int) Math.sqrt(array.length);
 		Integer[][] newArray = new Integer[dimension][dimension];
-		int k = array.length - 1;
-		for(int i = 0; i < dimension; i++) {
-			for(int j = 0; j < dimension; j++) {
-				 newArray[j][i] = array[k];
-				 k--;
+		if(porColumnas) {
+			int k = array.length - 1;
+			for(int i = 0; i < dimension; i++) {
+				for(int j = 0; j < dimension; j++) {
+					 newArray[j][i] = array[k];
+					 k--;
+				}
+			}
+		} else {
+			int k = array.length - 1;
+			for(int i = 0; i < dimension; i++) {
+				for(int j = 0; j < dimension; j++) {
+					 newArray[i][j] = array[k];
+					 k--;
+				}
 			}
 		}
 		return newArray;
@@ -433,20 +444,34 @@ public class MatrixOperationsManager {
 	}
 	
 	/**
-	 * Ordena un vector de manera descendente usando el método de ordenamiento por inserción
+	 * Ordena un vector usando el método de ordenamiento por inserción
 	 * @param array El vector a ordenar
+	 * @param desc <code>true</code> para ordenar descendentemente, <code>false</code> para ordenar ascendentemente
 	 * @return El vector ordenado
 	 */
-	public static Integer[] ordenarVectorDescendentementePorInsercion(Integer[] array) {
-		for (int i = 1; i < array.length; ++i) { 
-            int aux = array[i]; 
-            int j = i - 1; 
-            while (j >= 0 && array[j] > aux) { 
-            	array[j + 1] = array[j]; 
-                j = j - 1; 
-            } 
-            array[j + 1] = aux; 
-        } 
+	public static Integer[] ordenarVectorPorInsercion(Integer[] array, boolean desc) {
+		if(desc) {
+			for (int i = 1; i < array.length; ++i) { 
+	            int aux = array[i]; 
+	            int j = i - 1; 
+	            while (j >= 0 && array[j] > aux) { 
+	            	array[j + 1] = array[j]; 
+	                j = j - 1; 
+	            } 
+	            array[j + 1] = aux; 
+	        } 
+		} else {
+			for (int i = 1; i < array.length; ++i) { 
+	            int aux = array[i]; 
+	            int j = i - 1; 
+	            while (j >= 0 && array[j] > aux) { 
+	            	array[j + 1] = array[j]; 
+	                j = j - 1; 
+	            } 
+	            array[j + 1] = aux; 
+	        }
+			array = invertirVector(array);
+		}
 		return array;
 	}
 	
@@ -454,10 +479,10 @@ public class MatrixOperationsManager {
 	 * Ordena la matriz de manera descendente por columnas
 	 * @param array Matriz a ordenar
 	 */
-	public static void ordenaDescendentementePorColumnasTodaLaMatriz(Integer[][] array) { //método de inserción
+	public static void ordenaDescendentementePorColumnasTodaLaMatriz(Integer[][] array) {
 		Integer[] vector = pasarDeMatrizAVector(array);
-		Integer[] vectorOrdenado = ordenarVectorDescendentementePorInsercion(vector);
-		mostrarMatriz(pasarDeVectorAMatriz(vectorOrdenado));
+		Integer[] vectorOrdenado = ordenarVectorPorInsercion(vector, true);
+		mostrarMatriz(pasarDeVectorAMatriz(vectorOrdenado, true));
 	}
 	
 	/**
@@ -545,6 +570,21 @@ public class MatrixOperationsManager {
 			imprimirMensaje("No hay números primos en la matriz\n");
 		}
 		imprimirMensaje("\n");
+	}
+	
+	/**
+	 * Invierte un vector
+	 * @param array Vector a invertir
+	 * @return El vector invertido
+	 */
+	public static Integer[] invertirVector(Integer[] array) {
+		Integer[] newArray = new Integer[array.length]; 
+        int j = array.length; 
+        for (int i = 0; i < array.length; i++) { 
+            newArray[j - 1] = array[i]; 
+            j = j - 1; 
+        } 
+		return newArray;
 	}
 	
 	/**
