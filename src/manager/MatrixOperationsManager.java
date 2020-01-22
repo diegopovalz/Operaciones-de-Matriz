@@ -341,7 +341,11 @@ public class MatrixOperationsManager {
 		imprimirMensaje("\n");
 	}
 	
-	/*//Estos dos métodos no son necesarios ahora mismo, se dejarán comentados hasta que haya necesidad de usarlos
+	/**
+	 * Convierte una matriz de dos dimensiones a un vector unidimensional
+	 * @param array La matriz a convertir
+	 * @return El vector de una dimensión
+	 */
 	public static Integer[] pasarDeMatrizAVector(Integer[][] array) {
 		Integer[] newArray = new Integer[array.length * array.length];
 		int k = 0;
@@ -354,18 +358,23 @@ public class MatrixOperationsManager {
 		return newArray;
 	}
 	
+	/**
+	 * Convierte un vector unidimensional a una matriz de dos dimensiones
+	 * @param array El vector a convertir
+	 * @return La matriz de dos dimensiones
+	 */
 	public static Integer[][] pasarDeVectorAMatriz(Integer[] array){
 		int dimension = (int) Math.sqrt(array.length);
 		Integer[][] newArray = new Integer[dimension][dimension];
-		int k = 0;
+		int k = array.length - 1;
 		for(int i = 0; i < dimension; i++) {
 			for(int j = 0; j < dimension; j++) {
-				 newArray[i][j] = array[k];
-				 k++;
+				 newArray[j][i] = array[k];
+				 k--;
 			}
 		}
 		return newArray;
-	}*/
+	}
 	
 	/**
 	 * Ordena un vector por el método de ordenamiento burbuja
@@ -424,11 +433,31 @@ public class MatrixOperationsManager {
 	}
 	
 	/**
+	 * Ordena un vector de manera descendente usando el método de ordenamiento por inserción
+	 * @param array El vector a ordenar
+	 * @return El vector ordenado
+	 */
+	public static Integer[] ordenarVectorDescendentementePorInsercion(Integer[] array) {
+		for (int i = 1; i < array.length; ++i) { 
+            int aux = array[i]; 
+            int j = i - 1; 
+            while (j >= 0 && array[j] > aux) { 
+            	array[j + 1] = array[j]; 
+                j = j - 1; 
+            } 
+            array[j + 1] = aux; 
+        } 
+		return array;
+	}
+	
+	/**
 	 * Ordena la matriz de manera descendente por columnas
 	 * @param array Matriz a ordenar
 	 */
 	public static void ordenaDescendentementePorColumnasTodaLaMatriz(Integer[][] array) { //método de inserción
-		
+		Integer[] vector = pasarDeMatrizAVector(array);
+		Integer[] vectorOrdenado = ordenarVectorDescendentementePorInsercion(vector);
+		mostrarMatriz(pasarDeVectorAMatriz(vectorOrdenado));
 	}
 	
 	/**

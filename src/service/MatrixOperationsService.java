@@ -22,5 +22,6 @@ public class MatrixOperationsService {
 		//MatrixOperationsManager.mostrarPorFilasTriangularSuperiorDerecha(matriz); //Works!
 		//MatrixOperationsManager.intercambiarColumnas(matriz, 2, 6); //Works!
 		//MatrixOperationsManager.datosQueSeanPrimos(matriz); //Works!
+		//MatrixOperationsManager.ordenaDescendentementePorColumnasTodaLaMatriz(matriz); //Works!
 	}
 }
