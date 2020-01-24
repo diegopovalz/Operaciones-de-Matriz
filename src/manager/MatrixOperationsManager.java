@@ -407,6 +407,44 @@ public class MatrixOperationsManager {
 	}
 	
 	/**
+	 * Ordena un vector por el método de ordenamiento burbuja mejorado
+	 * @param array Vector a ordenar
+	 * @param desc <code>true</code> para ordenar el vector descendentemente, <code>false</code> para ordenarlo ascendentemente
+	 * @return
+	 */
+	public static Integer[] ordenarVectorPorBurbujaMejorado(Integer[] array, boolean desc) {
+		if(desc) {
+			int bandera = 1;
+			for(int i = 0; i < array.length - 1 && bandera == 1; i++) {
+				bandera = 0;
+				for(int j = 0; j < array.length - 1; j++){
+					if(array[j] > array[j + 1]) {
+						bandera = 1;
+						Integer aux = array[j];
+						array[j] = array[j + 1];
+						array[j + 1] = aux;
+					}
+				}
+			}
+			return invertirVector(array);
+		} else {
+			int bandera = 1;
+			for(int i = 0; i < array.length - 1 && bandera == 1; i++) {
+				bandera = 0;
+				for(int j = 0; j < array.length - 1; j++){
+					if(array[j] > array[j + 1]) {
+						bandera = 1;
+						Integer aux = array[j];
+						array[j] = array[j + 1];
+						array[j + 1] = aux;
+					}
+				}
+			}
+			return array;
+		}
+	}
+	
+	/**
 	 * Ordena cada columna de la matriz ascendentemente por el método de ordenamiento burbuja
 	 * @param array Matriz a la cual se le ordenarán sus columnas
 	 */
@@ -513,9 +551,16 @@ public class MatrixOperationsManager {
 	 * @param array Matriz a la cual se le ordenará ascendentemente la primera columna
 	 */
 	public static void ordenarAscendentementePorColumna1(Integer[][] array) { //método burbuja mejorado
-		
+		Integer[] columnaOrdenada = new Integer[array.length];
+		for(int i = 0 ; i < array.length; i++) {
+			columnaOrdenada[i] = array[i][0];
+		}
+		columnaOrdenada = ordenarVectorPorBurbujaMejorado(columnaOrdenada, false);
+		for(int i = 0; i < array.length; i++) {
+			array[i][0] = columnaOrdenada[i];
+		}
+		mostrarMatriz(array);
 	}
-	
 	
 	/**
 	 * Intercambia dos columnas de una matriz
