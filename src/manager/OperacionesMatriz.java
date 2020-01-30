@@ -10,7 +10,7 @@ import java.util.Scanner;
 /**
  * @author Diego Alejandro Poveda Alzate
  */
-public class MatrixOperationsManager {
+public class OperacionesMatriz {
 	/**
 	  * Lee un archivo en una ruta específica y crea una matriz
 	  *
@@ -88,7 +88,6 @@ public class MatrixOperationsManager {
 			}
 			imprimirMensaje("");
 		}
-		imprimirMensaje("\n");
 	}
 	
 	/**
@@ -102,7 +101,7 @@ public class MatrixOperationsManager {
 				totalSuma += array[i][j];
 			}
 		}
-		imprimirMensaje("La suma total de datos es: " + totalSuma + "\n");
+		imprimirMensaje("La suma total de datos es: " + totalSuma);
 	}
 	
 	/**
@@ -122,7 +121,7 @@ public class MatrixOperationsManager {
 				}
 			}
 		}
-		imprimirMensaje("El número mayor está en la posición [" + (fila + 1) + "][" + (columna + 1) + "] con el valor " + mayor + "\n");
+		imprimirMensaje("El número mayor está en la posición [" + (fila + 1) + "][" + (columna + 1) + "] con el valor " + mayor);
 	}
 	
 	/**
@@ -142,7 +141,7 @@ public class MatrixOperationsManager {
 				}
 			}
 		}
-		imprimirMensaje("El número menor está en la posición [" + (fila + 1) + "][" + (columna + 1) + "] con el valor " + menor + "\n");
+		imprimirMensaje("El número menor está en la posición [" + (fila + 1) + "][" + (columna + 1) + "] con el valor " + menor);
 	}
 	
 	/**
@@ -160,7 +159,7 @@ public class MatrixOperationsManager {
 			respuesta = respuesta.substring(0, respuesta.length() - 1);
 		}
 		respuesta += "]";
-		imprimirMensaje(respuesta + "\n");
+		imprimirMensaje(respuesta);
 	}
 	
 	/**
@@ -181,7 +180,7 @@ public class MatrixOperationsManager {
 			respuesta = respuesta.substring(0, respuesta.length() - 1);
 		}
 		respuesta += "]";
-		imprimirMensaje(respuesta + "\n");
+		imprimirMensaje(respuesta);
 	}
 	
 	/**
@@ -398,33 +397,21 @@ public class MatrixOperationsManager {
 	 * @return
 	 */
 	public static Integer[] ordenarVectorPorBurbujaMejorado(Integer[] array, boolean desc) {
-		if(desc) {
-			int bandera = 1;
-			for(int i = 0; i < array.length - 1 && bandera == 1; i++) {
-				bandera = 0;
-				for(int j = 0; j < array.length - 1; j++){
-					if(array[j] > array[j + 1]) {
-						bandera = 1;
-						Integer aux = array[j];
-						array[j] = array[j + 1];
-						array[j + 1] = aux;
-					}
+		int bandera = 1;
+		for(int i = 0; i < array.length - 1 && bandera == 1; i++) {
+			bandera = 0;
+			for(int j = 0; j < array.length - 1; j++){
+				if(array[j] > array[j + 1]) {
+					bandera = 1;
+					Integer aux = array[j];
+					array[j] = array[j + 1];
+					array[j + 1] = aux;
 				}
 			}
+		}
+		if(desc) {
 			return invertirVector(array);
 		} else {
-			int bandera = 1;
-			for(int i = 0; i < array.length - 1 && bandera == 1; i++) {
-				bandera = 0;
-				for(int j = 0; j < array.length - 1; j++){
-					if(array[j] > array[j + 1]) {
-						bandera = 1;
-						Integer aux = array[j];
-						array[j] = array[j + 1];
-						array[j + 1] = aux;
-					}
-				}
-			}
 			return array;
 		}
 	}
@@ -463,7 +450,7 @@ public class MatrixOperationsManager {
 			}
 		}
 		double promedioDiagonalSecundaria = (double) sumaDiagonalSecundaria / contador;
-		imprimirMensaje("El promedio de la diagonal secundaria es " + promedioDiagonalSecundaria + "\n");
+		imprimirMensaje("El promedio de la diagonal secundaria es " + promedioDiagonalSecundaria);
 	}
 	
 	/**
@@ -473,29 +460,20 @@ public class MatrixOperationsManager {
 	 * @return El vector ordenado
 	 */
 	public static Integer[] ordenarVectorPorInsercion(Integer[] array, boolean desc) {
+		for (int i = 1; i < array.length; ++i) { 
+            int aux = array[i]; 
+            int j = i - 1; 
+            while (j >= 0 && array[j] > aux) { 
+            	array[j + 1] = array[j]; 
+                j = j - 1; 
+            } 
+            array[j + 1] = aux; 
+        }
 		if(desc) {
-			for (int i = 1; i < array.length; ++i) { 
-	            int aux = array[i]; 
-	            int j = i - 1; 
-	            while (j >= 0 && array[j] > aux) { 
-	            	array[j + 1] = array[j]; 
-	                j = j - 1; 
-	            } 
-	            array[j + 1] = aux; 
-	        } 
+			return array;
 		} else {
-			for (int i = 1; i < array.length; ++i) { 
-	            int aux = array[i]; 
-	            int j = i - 1; 
-	            while (j >= 0 && array[j] > aux) { 
-	            	array[j + 1] = array[j]; 
-	                j = j - 1; 
-	            } 
-	            array[j + 1] = aux; 
-	        }
-			array = invertirVector(array);
+			return invertirVector(array);
 		}
-		return array;
 	}
 	
 	/**
@@ -607,7 +585,6 @@ public class MatrixOperationsManager {
 		} else {
 			imprimirMensaje("No hay números primos en la matriz\n");
 		}
-		imprimirMensaje("\n");
 	}
 	
 	/**

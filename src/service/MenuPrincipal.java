@@ -2,20 +2,20 @@ package service;
 
 import java.util.Scanner;
 
-import manager.MatrixOperationsManager;
+import manager.OperacionesMatriz;
 
 /**
  * @author Diego Alejandro Poveda Alzate
  * @author Pedro Pablo Saldarriaga Jaramillo
  */
-public class MatrixOperationsService {
+public class MenuPrincipal {
 
 	public static void main(String[] args) {
 		String ruta = "src\\ArchivoMatriz.txt";
-		System.out.println("Leyendo archivo. . .");
-		Integer[][] matriz = MatrixOperationsManager.leerArchivo(ruta);
+		System.out.println("Leyendo archivo en ruta " + ruta + " . . .");
+		Integer[][] matriz = OperacionesMatriz.leerArchivo(ruta);
 		System.out.println("Matriz resultante: ");
-		MatrixOperationsManager.mostrarMatriz(matriz);
+		OperacionesMatriz.mostrarMatriz(matriz);
 		String menu = "\nEscoge una de las siguientes opciones:\n" + 
 					  "1. Sumar los datos de toda la matriz y mostrar el resultado\n" + 
 					  "2. Mostrar el mayor número de la matriz\n" + 
@@ -37,47 +37,47 @@ public class MatrixOperationsService {
 		while(true) {
 			switch(opcion) {
 			case 1:
-				MatrixOperationsManager.sumarDatos(matriz);
+				OperacionesMatriz.sumarDatos(matriz);
 				break;
 			case 2:
-				MatrixOperationsManager.devolverMayor(matriz);
+				OperacionesMatriz.devolverMayor(matriz);
 				break;
 			case 3:
-				MatrixOperationsManager.devolverMenor(matriz);
+				OperacionesMatriz.devolverMenor(matriz);
 				break;
 			case 4:
-				MatrixOperationsManager.vectorConMenorPorFila(matriz);
+				OperacionesMatriz.vectorConMenorPorFila(matriz);
 				break;
 			case 5:
-				MatrixOperationsManager.vectorConMayorPorColumna(matriz);
+				OperacionesMatriz.vectorConMayorPorColumna(matriz);
 				break;
 			case 6:
-				MatrixOperationsManager.muestraDatoConMayorSumaDigitosPorColumna(matriz);
+				OperacionesMatriz.muestraDatoConMayorSumaDigitosPorColumna(matriz);
 				break;
 			case 7:
-				MatrixOperationsManager.ordenaCadaColumnaAscendentemente(matriz);
+				OperacionesMatriz.ordenaCadaColumnaAscendentemente(matriz);
 				break;
 			case 8:
-				MatrixOperationsManager.promedioDiagonalSecundaria(matriz);
+				OperacionesMatriz.promedioDiagonalSecundaria(matriz);
 				break;
 			case 9:
-				MatrixOperationsManager.ordenaDescendentementePorColumnasTodaLaMatriz(matriz);
+				OperacionesMatriz.ordenaDescendentementePorColumnasTodaLaMatriz(matriz);
 				break;
 			case 10:
-				MatrixOperationsManager.mostrarPorFilasTriangularSuperiorDerecha(matriz);
+				OperacionesMatriz.mostrarPorFilasTriangularSuperiorDerecha(matriz);
 				break;
 			case 11:
-				MatrixOperationsManager.ordenarAscendentementePorColumna1(matriz);
+				OperacionesMatriz.ordenarAscendentementePorColumna1(matriz);
 				break;
 			case 12:
 				System.out.println("Ingrese la primera columna");
 				int columna1 = entrada.nextInt();
 				System.out.println("Ingrese la segunda columna");
 				int columna2 = entrada.nextInt();
-				MatrixOperationsManager.intercambiarColumnas(matriz, columna1, columna2);
+				OperacionesMatriz.intercambiarColumnas(matriz, columna1, columna2);
 				break;
 			case 13:
-				MatrixOperationsManager.datosQueSeanPrimos(matriz);
+				OperacionesMatriz.datosQueSeanPrimos(matriz);
 				break;
 			case 0:
 				System.out.println("Abandonando aplicación");
