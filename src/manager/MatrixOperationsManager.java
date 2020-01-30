@@ -17,57 +17,6 @@ public class MatrixOperationsManager {
 	  * @param ruta La ruta en donde se encuentra el archivo.
 	  * @return La matriz si se logra leer el archivo-
 	  */
-	/*public static Integer[][] leerArchivo(String ruta) {
-		FileReader reader = null;
-		BufferedReader buffered = null;
-		File file = new File(ruta);
-		Integer matrixDimension = null;
-		if(!file.exists()) {
-			imprimirMensaje("¡El archivo especificado no existe!\n");
-		} else {
-			try {
-				reader = new FileReader(file);
-				buffered = new BufferedReader(reader);
-				matrixDimension = Integer.parseInt(buffered.readLine());
-			} catch (FileNotFoundException e) {
-				imprimirMensaje("¡El archivo no fue encontrado!\n");
-				e.printStackTrace();
-			} catch (NumberFormatException e) {
-				imprimirMensaje("¡Hay un dato en el archivo que no se puede convertir a número!\n");
-				e.printStackTrace();
-			} catch (IOException e) {
-				imprimirMensaje("¡Hay un error que no sé por qué sale!\n");
-				e.printStackTrace();
-			}
-		}
-		imprimirMensaje("La dimensión de la matriz es " + matrixDimension);
-		Integer[][] matrix = new Integer[matrixDimension][matrixDimension];
-		String linea = null;
-		try {
-			linea = buffered.readLine();
-			int contador = 0;
-			while(linea != null) {
-				String[] valores = linea.split(" ");
-				for(int i = 0; i < valores.length; i++) {
-					matrix[contador][i] = Integer.parseInt(valores[i]);
-				}
-				contador++;
-				linea = buffered.readLine();
-			}
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		} finally {
-			if(buffered != null) {
-				try {
-					buffered.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return matrix;
-	}*/
-	
 	public static Integer[][] leerArchivo(String ruta) {
 		FileReader fileReader = null;
 		BufferedReader bufferedReader = null;
@@ -77,8 +26,8 @@ public class MatrixOperationsManager {
 			bufferedReader = new BufferedReader(fileReader);
 			scanner = new Scanner(bufferedReader);
 		} catch (FileNotFoundException e1) {
-			imprimirMensaje("El archivo no existe\n");
-			e1.printStackTrace();
+			imprimirMensaje("El archivo no existe o la ruta especificada no es correcta\n");
+			System.exit(0);
 		}
 		int matrixDimension = scanner.nextInt();
 		
@@ -220,11 +169,11 @@ public class MatrixOperationsManager {
 	 * @param extra Información extra que se quiere imprimir
 	 * @param incluirIndice verdadero si quiere que se imprima el índice, falso si no
 	 */
-	public static void mostrarVector(Integer[] array, String extra, boolean incluirIndice) {
+	public static void mostrarVector(String[] array, String extra, boolean incluirIndice) {
 		String respuesta = "[";
 		for(int i = 0; i < array.length; i++) {
 			String indice = (incluirIndice ? Integer.toString(i + 1) : "");
-			respuesta += (extra + indice + ": "+  + array[i] + ", ");
+			respuesta += (extra + indice + ": " + array[i] + ", ");
 		}
 		if(respuesta.endsWith(", ")) {
 			respuesta = respuesta.substring(0, respuesta.length() - 2);
@@ -243,11 +192,29 @@ public class MatrixOperationsManager {
 	public static int menorDelVector(Integer[] array) {
 		int menor = array[0];
 		for(int i = 0; i < array.length; i++) {
-			if(array[i] < menor) {
+			if(array[i] <= menor) {
 				menor = array[i];
 			}
 		}
 		return menor;
+	}
+	
+	/**
+	 * Imprime el menor de un vector con información adicional
+	 * @param array Vector del cual se buscará el número menor
+	 * @param info Información adicional
+	 * @return Un String con el menor del vector e información extra
+	 */
+	public static String menorDelVector(Integer[] array, String info) {
+		int menor = array[0];
+		int extra = 0;
+		for(int i = 0; i < array.length; i++) {
+			if(array[i] <= menor) {
+				menor = array[i];
+				extra = i;
+			}
+		}
+		return menor + " en " + info + " " + (extra + 1);
 	}
 	
 	/**
@@ -258,7 +225,7 @@ public class MatrixOperationsManager {
 	public static int mayorDelVector(Integer[] array) {
 		int mayor = array[0];
 		for(int i = 0; i < array.length; i++) {
-			if(array[i] > mayor) {
+			if(array[i] >= mayor) {
 				mayor = array[i];
 			}
 		}
@@ -266,17 +233,35 @@ public class MatrixOperationsManager {
 	}
 	
 	/**
+	 * Imprime el mayor de un vector con información adicional
+	 * @param array Vector del cual se buscará el número mayor
+	 * @param info Información adicional
+	 * @return Un String con el mayor del vector e información extra
+	 */
+	public static String mayorDelVector(Integer[] array, String info) {
+		int mayor = array[0];
+		int extra = 0;
+		for(int i = 0; i < array.length; i++) {
+			if(array[i] >= mayor) {
+				mayor = array[i];
+				extra = i;
+			}
+		}
+		return mayor + " en " + info + " " + (extra + 1);
+	}
+	
+	/**
 	 * Imprime un vector indicando cual es el número más pequeño de cada fila de la matriz
 	 * @param array Matriz de la cual se sacará la información
 	 */
 	public static void vectorConMenorPorFila(Integer[][] array) {
-		Integer[] respuesta = new Integer[array.length];
+		String[] respuesta = new String[array.length];
 		for(int i = 0; i < array.length; i++) {
 			Integer[] newArray = new Integer[array[i].length];
 			for(int j = 0; j < array[i].length; j++) {
 				newArray[j] = array[i][j];
 			}
-			respuesta[i] = menorDelVector(newArray);
+			respuesta[i] = menorDelVector(newArray, "columna");
 		}
 		mostrarVector(respuesta, "Menor de la fila ", true);
 	}
@@ -286,13 +271,13 @@ public class MatrixOperationsManager {
 	 * @param array Matriz de la cual se sacará la información
 	 */
 	public static void vectorConMayorPorColumna(Integer[][] array) {
-		Integer[] respuesta = new Integer[array.length];
+		String[] respuesta = new String[array.length];
 		for(int i = 0; i < array.length; i++) {
 			Integer[] newArray = new Integer[array[i].length];
 			for(int j = 0; j < array[i].length; j++) {
 				newArray[j] = array[j][i];
 			}
-			respuesta[i] = mayorDelVector(newArray);
+			respuesta[i] = mayorDelVector(newArray, "fila");
 		}
 		mostrarVector(respuesta, "Mayor de la columna ", true);
 	}
@@ -569,6 +554,14 @@ public class MatrixOperationsManager {
 	 * @param columna2 Segunda columna
 	 */
 	public static void intercambiarColumnas(Integer[][] array, int columna1, int columna2) {
+		if(columna1 == columna2) {
+			imprimirMensaje("Las columnas no pueden ser la misma");
+			return;
+		}
+		if(columna1 <= 0 || columna2 <= 0 || columna1 > array.length || columna2 > array.length) {
+			imprimirMensaje("¡ERROR! Las columnas deben estar entre 1 y " + (array.length));
+			return;
+		}
 		imprimirMensaje("Intercambiando columnas " + columna1 + " y " + columna2);
 		for(int i = 0; i < array.length; i++) {
 			int aux = array[i][columna1 - 1];
