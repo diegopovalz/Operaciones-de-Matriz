@@ -372,6 +372,20 @@ public class OperacionesMatriz {
 	}
 	
 	/**
+	 * Intercambia dos datos en un vector basandose en dos posiciones específicas
+	 * @param array Vector con dos datos a intercambiar
+	 * @param i índice 
+	 * @param j índice
+	 * @return El vector con los datos intercambiados
+	 */
+	public static Integer[] intercambiar(Integer[] array, Integer i, Integer j) {
+		int temp = array[j]; 
+        array[j] = array[j+1]; 
+        array[j + 1] = temp;  
+		return array;
+	}
+	
+	/**
 	 * Ordena un vector por el método de ordenamiento burbuja
 	 * @param array Vector a ordenar
 	 * @return Vector ordenado
@@ -381,9 +395,7 @@ public class OperacionesMatriz {
             for (int j = 0; j < (array.length - i - 1); j++) {
                 if (array[j] > array[j+1]) 
                 {
-                	int temp = array[j]; 
-                    array[j] = array[j+1]; 
-                    array[j+1] = temp; 
+                	array = intercambiar(array, i, j);
                 }
 			}
 		}
@@ -398,16 +410,16 @@ public class OperacionesMatriz {
 	 */
 	public static Integer[] ordenarVectorPorBurbujaMejorado(Integer[] array, boolean desc) {
 		int bandera = 1;
-		for(int i = 0; i < array.length - 1 && bandera == 1; i++) {
+		for(int i = 0; i < array.length - 1; i++) {
 			bandera = 0;
 			for(int j = 0; j < array.length - 1; j++){
 				if(array[j] > array[j + 1]) {
 					bandera = 1;
-					Integer aux = array[j];
-					array[j] = array[j + 1];
-					array[j + 1] = aux;
+					array = intercambiar(array, i, j);
 				}
 			}
+			if(bandera == 0)
+				break;
 		}
 		if(desc) {
 			return invertirVector(array);
